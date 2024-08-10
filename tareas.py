@@ -48,9 +48,9 @@ class ListaEnlazada:
         while actual is not None:
             if texto.lower() in actual.tarea.descripcion.lower():
                 print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {'Completada' if actual.tarea.completada else 'Pendiente'}")
-                encontrado = True
             actual = actual.siguiente
         if not encontrado:
+                encontrado = True
             print(f"No se encontraron tareas con el texto '{texto}'.")
 
     def completar_tarea(self, id):
@@ -171,3 +171,52 @@ class ListaEnlazada:
         if tarea.id >= self.id_actual:
             self.id_actual = tarea.id + 1
       
+# Menú
+def menu():
+    print("\nMenú:")
+    print("1. Agregar tarea")
+    print("2. Completar tarea")
+    print("3. Eliminar tarea")
+    print("4. Mostrar todas las tareas")
+    print("5. Mostrar tareas pendientes")
+    print("6. Guardar tareas en archivo CSV")
+    print("7. Cargar tareas desde archivo CSV")
+    print("8. Salir")
+
+def main():
+    lista_tareas = ListaEnlazada()
+    archivo_csv = 'tareas.csv'
+
+    # Cargar tareas desde el CSV
+    lista_tareas.cargar_desde_csv(archivo_csv)
+
+    while True:
+        menu()
+        opcion = input("Seleccione una opción: ")
+        if opcion == "1":
+            descripcion = input("Ingrese la descripción de la tarea: ")
+            prioridad = int(input("Ingrese la prioridad de la tarea (1 = baja, 2 = media, 3 = alta): "))
+            categoria = input("Ingrese la categoría de la tarea: ")
+            lista_tareas.agregar_tarea(descripcion, prioridad, categoria)
+        elif opcion == "2":
+            id_tarea = int(input("Ingrese el ID de la tarea a completar: "))
+            lista_tareas.completar_tarea(id_tarea)
+        elif opcion == "3":
+            id_tarea = int(input("Ingrese el ID de la tarea a eliminar: "))
+            lista_tareas.eliminar_tarea(id_tarea)
+        elif opcion == "4":
+            lista_tareas.mostrar_tareas()
+        elif opcion == "5":
+            lista_tareas.mostrar_tareas_pendientes()
+        elif opcion == "6":
+            lista_tareas.guardar_en_csv(archivo_csv)
+        elif opcion == "7":
+            lista_tareas.cargar_desde_csv(archivo_csv)
+        elif opcion == "8":
+            print("Saliendo del sistema de gestión de tareas.")
+            break
+        else:
+            print("Opción no válida. Por favor, seleccione una opción válida.")
+
+if _name_ == "_main_":
+    main()
