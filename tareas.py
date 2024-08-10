@@ -94,4 +94,80 @@ class ListaEnlazada:
         while actual is not None:
             if not actual.tarea.completada:
                 print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}")
-            actual = actual.siguiente      
+            actual = actual.siguiente
+
+    def mostrar_tareas_categoria(self, categoria):
+        # Muestra tareas según la categoría especificada
+        actual = self.cabeza
+        encontrado = False
+        while actual is not None:
+            if actual.tarea.categoria.lower() == categoria.lower():
+                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Estado: {'Completada' if actual.tarea.completada else 'Pendiente'}")
+                encontrado = True
+            actual = actual.siguiente
+        if not encontrado:
+            print(f"No se encontraron tareas en la categoría '{categoria}'.")
+
+    def contar_tareas_pendientes(self):
+        # Cuenta el número de tareas pendientes
+        contador = 0
+        actual = self.cabeza
+        while actual is not None:
+            if not actual.tarea.completada:
+                contador += 1
+            actual = actual.siguiente
+        return contador
+
+    def mostrar_estadisticas(self):
+        # Muestra estadísticas sobre las tareas
+        total_tareas = 0
+        tareas_pendientes = 0
+        actual = self.cabeza
+        while actual is not None:
+            total_tareas += 1
+            if not actual.tarea.completada:
+                tareas_pendientes += 1
+            actual = actual.siguiente
+        print(f"Total de tareas: {total_tareas}")
+        print(f"Tareas pendientes: {tareas_pendientes}")
+
+    def guardar_en_csv(self, archivo):
+        # Guarda las tareas en un archivo CSV
+        with open(archivo, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            actual = self.cabeza
+            while actual is not None:
+                writer.writerow([actual.tarea.id, actual.tarea.descripcion, actual.tarea.prioridad, actual.tarea.categoria, actual.tarea.completada])
+                actual = actual.siguiente
+        print(f"Tareas guardadas en {archivo} con éxito.")
+
+    def cargar_desde_csv(self, archivo):
+        # Carga las tareas desde un archivo CSV
+        if not os.path.exists(archivo):
+            print(f"Archivo {archivo} no encontrado.")
+            return
+        with open(archivo, mode='r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                id, descripcion, prioridad, categoria, completada = int(row[0]), row[1], int(row[2]), row[3], row[4] == 'True'
+                tarea = Tarea(id, descripcion, prioridad, categoria)
+                tarea.completada = completada
+                self.agregar_tarea_existente(tarea)
+            print(f"Tareas cargadas desde {archivo} con éxito.")
+
+    def agregar_tarea_existente(self, tarea):
+        # Agrega tarea existente
+        nuevo_nodo = Nodo(tarea)
+        if self.esta_vacia() or tarea.prioridad > self.cabeza.tarea.prioridad:
+            nuevo_nodo.siguiente = self.cabeza
+            self.cabeza = nuevo_nodo
+        else:
+            actual = self.cabeza
+            while actual.siguiente is not None and actual.siguiente.tarea.prioridad >= tarea.prioridad:
+                actual = actual.siguiente
+            nuevo_nodo.siguiente = actual.siguiente
+            actual.siguiente = nuevo_nodo
+
+        if tarea.id >= self.id_actual:
+            self.id_actual = tarea.id + 1
+      
