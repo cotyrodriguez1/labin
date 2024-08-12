@@ -179,9 +179,11 @@ def menu():
     print("3. Eliminar tarea")
     print("4. Mostrar todas las tareas")
     print("5. Mostrar tareas pendientes")
-    print("6. Guardar tareas en archivo CSV")
-    print("7. Cargar tareas desde archivo CSV")
-    print("8. Salir")
+    print("6. Busqueda rapida por descripcion")
+    print("7. Mostrar tareas por categoría")
+    print("8. Guardar tareas en archivo CSV")
+    print("9. Cargar tareas desde archivo CSV")
+    print("10. Salir")
 
 def main():
     lista_tareas = ListaEnlazada()
@@ -207,12 +209,21 @@ def main():
         elif opcion == "4":
             lista_tareas.mostrar_tareas()
         elif opcion == "5":
-            lista_tareas.mostrar_tareas_pendientes()
+            lista_tareas.mostrar_tareas_pendientes()   
         elif opcion == "6":
-            lista_tareas.guardar_en_csv(archivo_csv)
+            texto = input("Ingrese el texto a buscar en la descripción de las tareas: ").strip()
+            lista_tareas.buscar_tarea_descripcion(texto)
         elif opcion == "7":
-            lista_tareas.cargar_desde_csv(archivo_csv)
+            categoria = input("Ingrese la categoría de la tarea: ").strip()
+            if not categoria:
+                print("La categoría no puede estar vacía.")
+                continue
+            lista_tareas.mostrar_tareas_categoria(categoria)       
         elif opcion == "8":
+            lista_tareas.guardar_en_csv(archivo_csv)
+        elif opcion == "9":
+            lista_tareas.cargar_desde_csv(archivo_csv)
+        elif opcion == "10":
             print("Saliendo del sistema de gestión de tareas.")
             break
         else:
