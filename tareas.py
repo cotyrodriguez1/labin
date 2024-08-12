@@ -2,7 +2,11 @@ import csv
 import os
 
 class Tarea:
+<<<<<<< HEAD
     def _init_(self, id, descripcion, prioridad, categoria="General"):
+=======
+    def __init__(self, id, descripcion, prioridad, categoria="General"):
+>>>>>>> coty/tarea-vane
         self.id = id 
         self.descripcion = descripcion 
         self.prioridad = prioridad  # 1 = baja, 2 = media, 3 = alta
@@ -10,12 +14,20 @@ class Tarea:
         self.categoria = categoria 
 
 class Nodo:
+<<<<<<< HEAD
     def _init_(self, tarea):
+=======
+    def __init__(self, tarea):
+>>>>>>> coty/tarea-vane
         self.tarea = tarea  # Objeto tarea asociado al nodo
         self.siguiente = None  # Enlace al siguiente nodo en la lista
 
 class ListaEnlazada:
+<<<<<<< HEAD
     def _init_(self):
+=======
+    def __init__(self):
+>>>>>>> coty/tarea-vane
         self.cabeza = None  # Cabeza de la lista (inicio)
         self.id_actual = 1  # Contador para asignar ID único a nuevas tareas
 
@@ -48,9 +60,15 @@ class ListaEnlazada:
         while actual is not None:
             if texto.lower() in actual.tarea.descripcion.lower():
                 print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {'Completada' if actual.tarea.completada else 'Pendiente'}")
+<<<<<<< HEAD
                 encontrado = True
             actual = actual.siguiente
         if not encontrado:
+=======
+            actual = actual.siguiente
+        if not encontrado:
+                encontrado = True
+>>>>>>> coty/tarea-vane
             print(f"No se encontraron tareas con el texto '{texto}'.")
 
     def completar_tarea(self, id):
@@ -170,7 +188,11 @@ class ListaEnlazada:
 
         if tarea.id >= self.id_actual:
             self.id_actual = tarea.id + 1
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> coty/tarea-vane
 # Menú
 def menu():
     print("\nMenú:")
@@ -179,11 +201,17 @@ def menu():
     print("3. Eliminar tarea")
     print("4. Mostrar todas las tareas")
     print("5. Mostrar tareas pendientes")
+<<<<<<< HEAD
     print("6. Busqueda rapida por descripcion")
     print("7. Mostrar tareas por categoría")
     print("8. Guardar tareas en archivo CSV")
     print("9. Cargar tareas desde archivo CSV")
     print("10. Salir")
+=======
+    print("6. Guardar tareas en archivo CSV")
+    print("7. Cargar tareas desde archivo CSV")
+    print("8. Salir")
+>>>>>>> coty/tarea-vane
 
 def main():
     lista_tareas = ListaEnlazada()
@@ -209,6 +237,7 @@ def main():
         elif opcion == "4":
             lista_tareas.mostrar_tareas()
         elif opcion == "5":
+<<<<<<< HEAD
             lista_tareas.mostrar_tareas_pendientes()   
         elif opcion == "6":
             texto = input("Ingrese el texto a buscar en la descripción de las tareas: ").strip()
@@ -224,6 +253,14 @@ def main():
         elif opcion == "9":
             lista_tareas.cargar_desde_csv(archivo_csv)
         elif opcion == "10":
+=======
+            lista_tareas.mostrar_tareas_pendientes()
+        elif opcion == "6":
+            lista_tareas.guardar_en_csv(archivo_csv)
+        elif opcion == "7":
+            lista_tareas.cargar_desde_csv(archivo_csv)
+        elif opcion == "8":
+>>>>>>> coty/tarea-vane
             print("Saliendo del sistema de gestión de tareas.")
             break
         else:
